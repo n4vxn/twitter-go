@@ -1,8 +1,21 @@
-package twittergo
+package twitter
 
-import "time"
+import (
+	"context"
+	"errors"
+	"time"
+)
 
-type UserRepo struct{}
+var (
+	ErrUsernameTaken = errors.New("username taken")
+	ErrEmailTaken = errors.New("email taken")
+)
+
+type UserRepo interface {
+	Create(context.Context, User) (User, error)
+	GetByUsername(context.Context, string) (User, error)
+	GetByEmail(context.Context, string) (User, error)
+}
 
 type User struct {
 	ID        string
